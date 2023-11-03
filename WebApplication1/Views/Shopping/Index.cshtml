@@ -1,7 +1,18 @@
-﻿
+﻿@model IEnumerable<WebApplication1.Models.Product>
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1 class="text-center">Shopping</h1>
 
+<div class="row mb-2">
+    <div class="col-10">
+        @if (TempData["msg"] != null)
+        {
+            <h2 class="alert alert-primary text-center">@TempData["msg"]</h2>
+        }
+    </div>
+    <div class="col-2">
+
+    </div>
+</div>
