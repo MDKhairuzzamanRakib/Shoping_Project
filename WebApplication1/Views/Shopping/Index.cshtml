@@ -16,3 +16,35 @@
 
     </div>
 </div>
+
+<div class="row">
+    <div class="col">
+        <table class="table table-bordered table-striped table-hover table-sm">
+            <thead class="table-primary">
+                <tr>
+                    <th>Name</th>
+                    <th>Unit</th> 
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(x=>item.Name)</td>
+                        <td>@Html.DisplayFor(x=>item.Unit) Pieces</td>
+                        <td>@Html.DisplayFor(x=>item.Price)</td>
+                        <td>
+                            <form asp-action="AddToCart" asp-controller="Shopping" method="post">
+                                <input type="hidden" name="pid" value="@item.Id">
+                                <input type="number" name="qty" min="1" max="500" value="1" class=" me-1">
+                                <button type="submit" class="btn btn-warning btn-sm"><i class="fa fa-opencart"></i> Add to Cart</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

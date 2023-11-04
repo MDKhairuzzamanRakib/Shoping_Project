@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebApplication1.Models;
 
 namespace WebApplication1.Models
 {
@@ -14,10 +15,26 @@ namespace WebApplication1.Models
         public int Role { get; set; }
         public int IsActive { get; set; }
     }
+
+    public class Category
+    {
+        public Category()
+        {
+            this.ProductCategories = new List<ProductCategory>();
+        }
+
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; } = default!;
+
+        //nev
+        public virtual ICollection<ProductCategory>? ProductCategories { get; set; }
+    }
+
     public class Product
     {
         public Product()
         {
+            this.ProductCategories = new List<ProductCategory>();
             this.SalesItems = new List<SalesItem>();
         }
         public int Id { get; set; }
@@ -25,10 +42,28 @@ namespace WebApplication1.Models
         public string Unit { get; set; } = default!;
         public double Price { get; set; }
         public double Quantity { get; set; }
+        public string? Image { get; set;} = default!;
+        public string Description { get; set; } = default!;
 
-        //nev
+
+        public virtual ICollection<ProductCategory>? ProductCategories { get; set; }
         public virtual ICollection<SalesItem>? SalesItems { get; }
     }
+
+    public class ProductCategory
+    {
+        public int ProductCategoryId { get; set; }
+
+        [ForeignKey("Category")]
+        public int CategoryId { get; set; }
+        [ForeignKey("Product")]
+        public int Id { get; set; }
+
+        public virtual Category? Category { get; set; }
+        public virtual Product? Product { get; set; }
+
+    }
+
 
     public class Customer
     {
@@ -82,6 +117,7 @@ namespace WebApplication1.Models
         public virtual Product? Product { get; set; }
     }
 
+
     public class ShopDbContext : DbContext
     {
         public ShopDbContext(DbContextOptions<ShopDbContext> options):base(options)
@@ -94,6 +130,8 @@ namespace WebApplication1.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<SalesOrder> SalesOrders { get; set; }
         public DbSet<SalesItem> SalesItems { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Category> Category { get; set; }
 
     }
 

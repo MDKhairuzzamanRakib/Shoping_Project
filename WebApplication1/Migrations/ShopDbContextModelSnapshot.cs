@@ -49,6 +49,23 @@ namespace WebApplication1.Migrations
                     b.ToTable("AppUsers");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Category");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
@@ -82,6 +99,13 @@ namespace WebApplication1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -99,6 +123,24 @@ namespace WebApplication1.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.ProductCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.SalesItem", b =>
@@ -155,6 +197,25 @@ namespace WebApplication1.Migrations
                     b.ToTable("SalesOrders");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.ProductCategory", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Category", "Category")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication1.Models.Product", "Product")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.SalesItem", b =>
                 {
                     b.HasOne("WebApplication1.Models.Product", "Product")
@@ -185,6 +246,11 @@ namespace WebApplication1.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Category", b =>
+                {
+                    b.Navigation("ProductCategories");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Customer", b =>
                 {
                     b.Navigation("SalesOrders");
@@ -192,6 +258,8 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.Product", b =>
                 {
+                    b.Navigation("ProductCategories");
+
                     b.Navigation("SalesItems");
                 });
 

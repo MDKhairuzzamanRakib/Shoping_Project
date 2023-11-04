@@ -9,6 +9,19 @@
         <script src="~/lib/jquery/jquery.js"></script>
         <link href="~/lib/fontawesome/css/font-awesome.css" rel="stylesheet" />
     </environment>
+
+    <script type="text/javascript">
+        function LoadData(categoryId = null) {
+            var skillContainer = $("#skillContainer");
+            $.ajax({
+                url: "/Products/AddNewCategory/" + categoryId ?? "",
+                type: "GET",
+                success: function (data) {
+                    skillContainer.append(data);
+                }
+            });
+        }
+    </script>
 </head>
 <body>
 
@@ -25,6 +38,9 @@
                         @Html.ActionLink("Home","Index","Home",new{},new{@class="nav-link",style="color:white;"})
                     </li>
                     <li class="nav-item">
+                        @Html.ActionLink("Categories","Index","Categories",new{},new{@class="nav-link",style="color:white;"})
+                    </li>
+                    <li class="nav-item">
                         @Html.ActionLink("Products","Index","Products",new{},new{@class="nav-link",style="color:white;"})
                     </li>
                     <li class="nav-item">
@@ -34,7 +50,7 @@
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container mt-2">
         @RenderBody()
     </div>
     <footer class="container">
