@@ -12,7 +12,7 @@ using WebApplication1.Models;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20231104202307_ScriptA")]
+    [Migration("20231105202801_ScriptA")]
     partial class ScriptA
     {
         /// <inheritdoc />
@@ -128,7 +128,7 @@ namespace WebApplication1.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.ProductCategory", b =>
+            modelBuilder.Entity("WebApplication1.Models.ProductCategorySpecification", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -139,9 +139,14 @@ namespace WebApplication1.Migrations
                     b.Property<int>("ProductCategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SpecificationId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("SpecificationId");
 
                     b.ToTable("ProductCategories");
                 });
@@ -200,7 +205,28 @@ namespace WebApplication1.Migrations
                     b.ToTable("SalesOrders");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.ProductCategory", b =>
+            modelBuilder.Entity("WebApplication1.Models.Specification", b =>
+                {
+                    b.Property<int>("SpecificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpecificationId"));
+
+                    b.Property<string>("SpecificationDetails")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpecificationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SpecificationId");
+
+                    b.ToTable("Specifications");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.ProductCategorySpecification", b =>
                 {
                     b.HasOne("WebApplication1.Models.Category", "Category")
                         .WithMany("ProductCategories")
@@ -214,9 +240,17 @@ namespace WebApplication1.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApplication1.Models.Specification", "Specification")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("SpecificationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
 
                     b.Navigation("Product");
+
+                    b.Navigation("Specification");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.SalesItem", b =>
@@ -269,6 +303,11 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Models.SalesOrder", b =>
                 {
                     b.Navigation("SalesItems");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Specification", b =>
+                {
+                    b.Navigation("ProductCategories");
                 });
 #pragma warning restore 612, 618
         }

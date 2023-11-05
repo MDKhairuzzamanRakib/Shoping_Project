@@ -21,6 +21,27 @@ namespace WebApplication1.Controllers
             return View(await _context.Products.Include(x => x.ProductCategories).ThenInclude(y => y.Category).ToListAsync());
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            Product product = _context.Products.First(x => x.Id == id);
+            var productCategory = _context.ProductCategories.Where(x => x.Id == id).ToList();
+
+            ProductVM productVM = new ProductVM()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Unit = product.Unit,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                Description = product.Description
+            };
+
+            foreach (var item in productCategory)
+            {
+                productVM.CategoryList.Add(item.CategoryId);
+            }
+            return View(productVM);
+        }
         
     }
 }

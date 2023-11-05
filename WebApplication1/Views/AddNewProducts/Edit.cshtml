@@ -1,0 +1,96 @@
+﻿@model WebApplication1.Models.ViewModels.ProductVM
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<h1 class="alert alert-info text-center">Edit @Html.DisplayFor(x=>x.Name) Information</h1>
+
+<div class="row">
+    <div class="col">
+        <form asp-action="Edit" asp-controller="AddNewProducts" enctype="multipart/form-data" method="post">
+            <input type="hidden" asp-for="Id" />
+            <input asp-for="Image" type="hidden"/>
+            <div class="row">
+                <div class="col-6">
+                    <div class="row mb-2">
+                        <label class="col-form-label col-3 d-flex justify-content-end">Product Name</label>
+                        <div class="col-6">
+                            <input asp-for="Name" class="form-control" />
+                        </div>
+                        <div class="col-3">
+                            <span class="text-danger" asp-validation-for="Name"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-3 d-flex justify-content-end">Unit</label>
+                        <div class="col-6">
+                            <input asp-for="Unit" class="form-control" />
+                        </div>
+                        <div class="col-3">
+                            <span class="text-danger" asp-validation-for="Unit"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-3 d-flex justify-content-end">Price</label>
+                        <div class="col-6">
+                            <input asp-for="Price" class="form-control" />
+                        </div>
+                        <div class="col-3">
+                            <span class="text-danger" asp-validation-for="Price"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-3 d-flex justify-content-end">Quantity</label>
+                        <div class="col-6">
+                            <input asp-for="Quantity" class="form-control" />
+                        </div>
+                        <div class="col-3">
+                            <span class="text-danger" asp-validation-for="Quantity"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-3 d-flex justify-content-end">Product Image</label>
+                        <div class="col-6">
+                            <input asp-for="ImagePath" class="form-control" type="file" />
+                        </div>
+                        <div class="col-3">
+                            <span class="text-danger" asp-validation-for="ImagePath"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-form-label col-3 d-flex justify-content-end">Descriptions</label>
+                        <div class="col-6">
+                            <textarea asp-for="Description" class="form-control"></textarea>
+                        </div>
+                        <div class="col-3">
+                            <span class="text-danger" asp-validation-for="Description"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <label class="col-form-label col-3 d-flex justify-content-end">Product Category</label>
+                        <div class="col-6">
+                            <div id="categoryContainer">
+                                @foreach (var item in Model.CategoryList)
+                                {
+                                    <script>
+                                        LoadData(@item);
+                                    </script>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-between">
+                    <a asp-action ="AddProduct" asp-controller="AddNewProducts" class="btn btn-secondary btn-sm">
+                        <i class="fa fa-arrow-circle-left"></i> Back to List</a>
+                    <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-save"></i> Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

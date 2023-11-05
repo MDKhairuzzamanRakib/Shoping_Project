@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models.ViewModels;
 using WebApplication1.Models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace WebApplication1.Controllers
 {
@@ -27,13 +28,20 @@ namespace WebApplication1.Controllers
             return PartialView("_addNewCategory");
         }
 
+        public IActionResult AddNewSpecification(int? id)
+        {
+            ViewBag.specName = new InputText();
+            ViewBag.specDetails = new InputText();
+            return PartialView("_addNewSpecification");
+        }
+
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductVM productVM, int[] categoryId)
+        public async Task<IActionResult> Create(ProductVM productVM, int[] categoryId, int[] specificationId)
         {
             string msg = "";
             if (ModelState.IsValid)
@@ -67,7 +75,7 @@ namespace WebApplication1.Controllers
 
                 foreach (var item in categoryId)
                 {
-                    ProductCategory productCategory = new ProductCategory()
+                    ProductCategorySpecification productCategory = new ProductCategorySpecification()
                     {
                         Product = product,
                         Id = product.Id,
@@ -75,6 +83,9 @@ namespace WebApplication1.Controllers
                     };
                     _context.ProductCategories.Add(productCategory);
                 }
+
+
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 
@@ -83,5 +94,107 @@ namespace WebApplication1.Controllers
             TempData["msg"] = msg;
             return RedirectToAction(nameof(AddProduct));
         }
+
+        public IActionResult Edit(int? id)
+        {
+            Product product = _context.Products.First(x => x.Id == id);
+            var productCategory = _context.ProductCategories.Where(x=>x.Id == id).ToList();
+
+            ProductVM productVM = new ProductVM()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Unit = product.Unit,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                Description = product.Description
+            };
+
+            foreach (var item in productCategory)
+            {
+                productVM.CategoryList.Add(item.CategoryId);
+            }
+            return View(productVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(ProductVM productVM, int[] categoryId)
+        {
+            if (ModelState.IsValid)
+            {
+                Product product = new Product()
+                {
+                    Id = productVM.Id,
+                    Name = productVM.Name,
+                    Unit = productVM.Unit,
+                    Price = productVM.Price,
+                    Quantity = productVM.Quantity,
+                    Description = productVM.Description
+                };
+                var file = productVM.ImagePath;
+                if (file!=null)
+                {
+                    string webroot = _he.WebRootPath;
+                    string folder = "Images";
+                    string imgFileName = Path.GetFileName(productVM.ImagePath.FileName);
+                    string fileToSave = Path.Combine(webroot, folder, imgFileName);
+                    using (var stream = new FileStream(fileToSave, FileMode.Create))
+                    {
+                        productVM.ImagePath.CopyTo(stream);
+                        product.Image = "/" + folder + "/" + imgFileName;
+                    }
+                }
+
+                var existSkill = _context.ProductCategories.Where(x => x.Id == product.Id).ToList();
+                foreach (var item in existSkill)
+                {
+                    _context.ProductCategories.Remove(item);
+                }
+
+                foreach (var item in categoryId)
+                {
+                    ProductCategorySpecification productCategory = new ProductCategorySpecification()
+                    {
+                        Id = product.Id,
+                        CategoryId = item
+                    };
+                    _context.ProductCategories.Add(productCategory);
+                }
+                _context.Update(product);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(AddProduct));
+            }
+            return View();
+        }
+         public IActionResult Delete(int? id)
+        {
+            Product product = _context.Products.First(x => x.Id == id);
+            var productCategory = _context.ProductCategories.Where(x => x.Id == id).ToList();
+
+            ProductVM productVM = new ProductVM()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Unit = product.Unit,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                Description = product.Description
+            };
+
+            foreach (var item in productCategory)
+            {
+                productVM.CategoryList.Add(item.CategoryId);
+            }
+            return View(productVM);
+        }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            Product product = _context.Products.Find(id);
+            _context.Entry(product).State = EntityState.Deleted;
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(AddProduct));
+        }
+
     }
 }

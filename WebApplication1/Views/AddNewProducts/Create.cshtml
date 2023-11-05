@@ -10,77 +10,96 @@
         <form asp-action="Create" asp-controller="AddNewProducts" enctype="multipart/form-data" method="post">
             <div class="row">
                 <div class="col-6">
-                    <div class="row mb-2">
-                        <label class="col-form-label col-3 d-flex justify-content-end">Product Name</label>
-                        <div class="col-6">
-                            <input asp-for="Name" class="form-control" />
-                        </div>
-                        <div class="col-3">
-                            <span class="text-danger" asp-validation-for="Name"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <label class="col-form-label col-3 d-flex justify-content-end">Unit</label>
-                        <div class="col-6">
-                            <input asp-for="Unit" class="form-control" />
-                        </div>
-                        <div class="col-3">
-                            <span class="text-danger" asp-validation-for="Unit"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <label class="col-form-label col-3 d-flex justify-content-end">Price</label>
-                        <div class="col-6">
-                            <input asp-for="Price" class="form-control" />
-                        </div>
-                        <div class="col-3">
-                            <span class="text-danger" asp-validation-for="Price"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <label class="col-form-label col-3 d-flex justify-content-end">Quantity</label>
-                        <div class="col-6">
-                            <input asp-for="Quantity" class="form-control" />
-                        </div>
-                        <div class="col-3">
-                            <span class="text-danger" asp-validation-for="Quantity"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <label class="col-form-label col-3 d-flex justify-content-end">Product Image</label>
-                        <div class="col-6">
-                            <input asp-for="ImagePath" class="form-control" type="file" />
-                        </div>
-                        <div class="col-3">
-                            <span class="text-danger" asp-validation-for="ImagePath"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <label class="col-form-label col-3 d-flex justify-content-end">Descriptions</label>
-                        <div class="col-6">
-                            <textarea asp-for="Description" class="form-control"></textarea>
-                        </div>
-                        <div class="col-3">
-                            <span class="text-danger" asp-validation-for="Description"></span>
+                    <div class="card">
+                        <div class="card-header text-center text-light bg-secondary"><h2>Product Information</h2></div>
+                        <div class="card-body">
+                            <div class="row mb-2">
+                                <label class="col-form-label col-3 d-flex justify-content-end">Product Name</label>
+                                <div class="col-6">
+                                    <input asp-for="Name" class="form-control" />
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-danger" asp-validation-for="Name"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-form-label col-3 d-flex justify-content-end">Unit</label>
+                                <div class="col-6">
+                                    <input asp-for="Unit" class="form-control" />
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-danger" asp-validation-for="Unit"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-form-label col-3 d-flex justify-content-end">Price</label>
+                                <div class="col-6">
+                                    <input asp-for="Price" class="form-control" />
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-danger" asp-validation-for="Price"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-form-label col-3 d-flex justify-content-end">Quantity</label>
+                                <div class="col-6">
+                                    <input asp-for="Quantity" class="form-control" />
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-danger" asp-validation-for="Quantity"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-form-label col-3 d-flex justify-content-end">Product Image</label>
+                                <div class="col-6">
+                                    <input asp-for="ImagePath" class="form-control" type="file" />
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-danger" asp-validation-for="Image"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-form-label col-3 d-flex justify-content-end">Product Category</label>
+                                <div class="col-6">
+                                    <div id="categoryContainer">
+                                        <script>
+                                            LoadData();
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <label class="col-form-label col-3 d-flex justify-content-end">Descriptions</label>
+                                <div class="col-6">
+                                    <textarea asp-for="Description" class="form-control"></textarea>
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-danger" asp-validation-for="Description"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="row">
-                        <label class="col-form-label col-3 d-flex justify-content-end">Product Category</label>
-                        <div class="col-6">
-                            <div id="categoryContainer">
+                    <div class="card">
+                        <div class="card-header text-center text-light bg-secondary"><h2>Product Specifications</h2></div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-end">
+                                <a id="btnPlus" class="btn btn-warning btn-sm mb-3"><i class="fa fa-plus"> Add Specification</i></a>
+                            </div>
+
+                            <div id="specificationContainer">
                                 <script>
-                                    LoadData();
+                                    LoadData2();
                                 </script>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mt-3">
                 <div class="d-flex justify-content-between">
-                    <a asp-action="Index" asp-controller="Products" class="btn btn-secondary btn-sm"><i class="fa fa-arrow-circle-left"></i> Back to List</a>
+                    <a asp-action="AddProduct" asp-controller="AddNewProducts" class="btn btn-secondary btn-sm"><i class="fa fa-arrow-circle-left"></i> Back to List</a>
                     <button class="btn btn-success btn-sm" type="submit"><i class="fa fa-save"></i> Save</button>
                 </div>
             </div>

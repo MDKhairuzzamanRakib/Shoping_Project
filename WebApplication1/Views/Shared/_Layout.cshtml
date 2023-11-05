@@ -22,6 +22,28 @@
                 }
             });
         }
+
+        function LoadData2(specificationId = null) {
+            var specificationContainer = $("#specificationContainer");
+            $.ajax({
+                url: "/AddNewProducts/AddNewSpecification/" + specificationContainer ?? "",
+                type: "GET",
+                success: function (data) {
+                    specificationContainer.append(data);
+                }
+            });
+        }
+        $(document).on("click", "#btnPlus", function (e) {
+            e.preventDefault();
+            LoadData2();
+
+
+        });
+
+        $(document).on("click", "#deleteSkill", function (e) {
+            e.preventDefault();
+            $(this).parent().parent().remove();
+        });
     </script>
 </head>
 <body>

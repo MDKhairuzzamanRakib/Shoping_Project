@@ -5,6 +5,7 @@
         public ProductVM()
         {
             this.CategoryList = new List<int>();
+            this.SpecificationList = new List<int>();
         }
 
         public int Id { get; set; }
@@ -17,5 +18,6 @@
         public string Description { get; set; } = default!;
 
         public List<int> CategoryList { get; set; }
+        public List<int> SpecificationList { get; set; }
     }
 }

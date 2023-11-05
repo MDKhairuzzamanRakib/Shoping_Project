@@ -74,6 +74,20 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Specifications",
+                columns: table => new
+                {
+                    SpecificationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SpecificationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SpecificationDetails = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Specifications", x => x.SpecificationId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SalesOrders",
                 columns: table => new
                 {
@@ -100,7 +114,8 @@ namespace WebApplication1.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
                     ProductCategoryId = table.Column<int>(type: "int", nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    SpecificationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,6 +131,12 @@ namespace WebApplication1.Migrations
                         column: x => x.Id,
                         principalTable: "Products",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductCategories_Specifications_SpecificationId",
+                        column: x => x.SpecificationId,
+                        principalTable: "Specifications",
+                        principalColumn: "SpecificationId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -153,6 +174,11 @@ namespace WebApplication1.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductCategories_SpecificationId",
+                table: "ProductCategories",
+                column: "SpecificationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SalesItems_ProductId",
                 table: "SalesItems",
                 column: "ProductId");
@@ -182,6 +208,9 @@ namespace WebApplication1.Migrations
 
             migrationBuilder.DropTable(
                 name: "Category");
+
+            migrationBuilder.DropTable(
+                name: "Specifications");
 
             migrationBuilder.DropTable(
                 name: "Products");

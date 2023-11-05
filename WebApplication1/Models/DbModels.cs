@@ -20,21 +20,35 @@ namespace WebApplication1.Models
     {
         public Category()
         {
-            this.ProductCategories = new List<ProductCategory>();
+            this.ProductCategories = new List<ProductCategorySpecification>();
         }
 
         public int CategoryId { get; set; }
         public string CategoryName { get; set; } = default!;
 
         //nev
-        public virtual ICollection<ProductCategory>? ProductCategories { get; set; }
+        public virtual ICollection<ProductCategorySpecification>? ProductCategories { get; set; }
+    }
+
+    public class Specification
+    {
+        public Specification()
+        {
+            this.ProductCategories = new List<ProductCategorySpecification>();
+        }
+        public int SpecificationId { get; set; }
+        public string SpecificationName { get; set; } = default!;
+        public string SpecificationDetails { get; set; } = default!;
+
+        //nev
+        public virtual ICollection<ProductCategorySpecification>? ProductCategories { get; set; }
     }
 
     public class Product
     {
         public Product()
         {
-            this.ProductCategories = new List<ProductCategory>();
+            this.ProductCategories = new List<ProductCategorySpecification>();
             this.SalesItems = new List<SalesItem>();
         }
         public int Id { get; set; }
@@ -46,11 +60,11 @@ namespace WebApplication1.Models
         public string Description { get; set; } = default!;
 
 
-        public virtual ICollection<ProductCategory>? ProductCategories { get; set; }
+        public virtual ICollection<ProductCategorySpecification>? ProductCategories { get; set; }
         public virtual ICollection<SalesItem>? SalesItems { get; }
     }
 
-    public class ProductCategory
+    public class ProductCategorySpecification
     {
         public int ProductCategoryId { get; set; }
 
@@ -58,9 +72,12 @@ namespace WebApplication1.Models
         public int CategoryId { get; set; }
         [ForeignKey("Product")]
         public int Id { get; set; }
+        [ForeignKey("Specification")]
+        public int SpecificationId { get; set; }
 
         public virtual Category? Category { get; set; }
         public virtual Product? Product { get; set; }
+        public virtual Specification? Specification { get; set; }
 
     }
 
@@ -130,9 +147,9 @@ namespace WebApplication1.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<SalesOrder> SalesOrders { get; set; }
         public DbSet<SalesItem> SalesItems { get; set; }
-        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<ProductCategorySpecification> ProductCategories { get; set; }
         public DbSet<Category> Category { get; set; }
-
+        public DbSet<Specification> Specifications { get; set; }
     }
 
 }
