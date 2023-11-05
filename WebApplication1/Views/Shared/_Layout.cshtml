@@ -10,14 +10,15 @@
         <link href="~/lib/fontawesome/css/font-awesome.css" rel="stylesheet" />
     </environment>
 
+
     <script type="text/javascript">
         function LoadData(categoryId = null) {
-            var skillContainer = $("#skillContainer");
+            var categoryContainer = $("#categoryContainer");
             $.ajax({
-                url: "/Products/AddNewCategory/" + categoryId ?? "",
+                url: "/AddNewProducts/AddNewCategory/" + categoryId ?? "",
                 type: "GET",
                 success: function (data) {
-                    skillContainer.append(data);
+                    categoryContainer.append(data);
                 }
             });
         }
@@ -45,6 +46,9 @@
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Shopping","Index","Shopping",new{},new{@class="nav-link",style="color:white;"})
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Add Product","AddProduct","AddNewProducts",new{},new{@class="nav-link",style="color:white;"})
                     </li>
                 </ul>
             </div>
