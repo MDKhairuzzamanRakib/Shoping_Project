@@ -70,6 +70,7 @@ namespace WebApplication1.Controllers
                         productVM.ImagePath.CopyTo(stream);
                         product.Image = "/" + folder + "/" + imgFileName;
 
+
                     }
                 }
 
