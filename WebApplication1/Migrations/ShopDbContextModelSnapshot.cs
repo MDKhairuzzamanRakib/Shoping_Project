@@ -220,7 +220,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("SpecificationId");
 
-                    b.ToTable("Specifications");
+                    b.ToTable("Specification");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.ProductCategorySpecification", b =>

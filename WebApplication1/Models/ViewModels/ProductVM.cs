@@ -17,6 +17,10 @@
         public IFormFile? ImagePath { get; set; }
         public string Description { get; set; } = default!;
 
+        public int SpecificationId { get; set; }
+        public string SpecificationName { get; set; } = default!;
+        public string SpecificationDetails { get; set; } = default!;
+
         public List<int> CategoryList { get; set; }
         public List<int> SpecificationList { get; set; }
     }

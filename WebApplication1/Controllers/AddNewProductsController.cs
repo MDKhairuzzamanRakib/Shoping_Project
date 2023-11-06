@@ -41,7 +41,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductVM productVM, int[] categoryId, int[] specificationId)
+        public async Task<IActionResult> Create(ProductVM productVM, int[] categoryId)
         {
             string msg = "";
             if (ModelState.IsValid)
@@ -53,6 +53,11 @@ namespace WebApplication1.Controllers
                     Price = productVM.Price,
                     Quantity = productVM.Quantity,
                     Description = productVM.Description,
+                };
+                Specification specification = new Specification()
+                {
+                    SpecificationName = productVM.SpecificationName,
+                    SpecificationDetails = productVM.SpecificationDetails,
                 };
 
                 //Image
@@ -86,12 +91,11 @@ namespace WebApplication1.Controllers
                 }
 
 
-
                 await _context.SaveChangesAsync();
+                msg = "Product Created Sucssefully!!";
                 return RedirectToAction(nameof(Index));
 
             }
-            msg = "Product Created Sucssefully!!";
             TempData["msg"] = msg;
             return RedirectToAction(nameof(AddProduct));
         }

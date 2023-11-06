@@ -30,19 +30,6 @@ namespace WebApplication1.Models
         public virtual ICollection<ProductCategorySpecification>? ProductCategories { get; set; }
     }
 
-    public class Specification
-    {
-        public Specification()
-        {
-            this.ProductCategories = new List<ProductCategorySpecification>();
-        }
-        public int SpecificationId { get; set; }
-        public string SpecificationName { get; set; } = default!;
-        public string SpecificationDetails { get; set; } = default!;
-
-        //nev
-        public virtual ICollection<ProductCategorySpecification>? ProductCategories { get; set; }
-    }
 
     public class Product
     {
@@ -62,6 +49,19 @@ namespace WebApplication1.Models
 
         public virtual ICollection<ProductCategorySpecification>? ProductCategories { get; set; }
         public virtual ICollection<SalesItem>? SalesItems { get; }
+    }
+    public class Specification
+    {
+        public Specification()
+        {
+            this.ProductCategories = new List<ProductCategorySpecification>();
+        }
+        public int SpecificationId { get; set; }
+        public string SpecificationName { get; set; } = default!;
+        public string SpecificationDetails { get; set; } = default!;
+
+        //nev
+        public virtual ICollection<ProductCategorySpecification>? ProductCategories { get; set; }
     }
 
     public class ProductCategorySpecification
@@ -149,7 +149,7 @@ namespace WebApplication1.Models
         public DbSet<SalesItem> SalesItems { get; set; }
         public DbSet<ProductCategorySpecification> ProductCategories { get; set; }
         public DbSet<Category> Category { get; set; }
-        public DbSet<Specification> Specifications { get; set; }
+        public DbSet<Specification> Specification { get; set; }
     }
 
 }

@@ -74,7 +74,7 @@ namespace WebApplication1.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Specifications",
+                name: "Specification",
                 columns: table => new
                 {
                     SpecificationId = table.Column<int>(type: "int", nullable: false)
@@ -84,7 +84,7 @@ namespace WebApplication1.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specifications", x => x.SpecificationId);
+                    table.PrimaryKey("PK_Specification", x => x.SpecificationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,9 +133,9 @@ namespace WebApplication1.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductCategories_Specifications_SpecificationId",
+                        name: "FK_ProductCategories_Specification_SpecificationId",
                         column: x => x.SpecificationId,
-                        principalTable: "Specifications",
+                        principalTable: "Specification",
                         principalColumn: "SpecificationId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -210,7 +210,7 @@ namespace WebApplication1.Migrations
                 name: "Category");
 
             migrationBuilder.DropTable(
-                name: "Specifications");
+                name: "Specification");
 
             migrationBuilder.DropTable(
                 name: "Products");

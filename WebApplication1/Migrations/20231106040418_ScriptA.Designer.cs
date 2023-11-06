@@ -12,7 +12,7 @@ using WebApplication1.Models;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20231105202801_ScriptA")]
+    [Migration("20231106040418_ScriptA")]
     partial class ScriptA
     {
         /// <inheritdoc />
@@ -223,7 +223,7 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("SpecificationId");
 
-                    b.ToTable("Specifications");
+                    b.ToTable("Specification");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.ProductCategorySpecification", b =>
