@@ -24,23 +24,9 @@ namespace WebApplication1.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             Product product = _context.Products.First(x => x.Id == id);
-            var productCategory = _context.ProductCategories.Where(x => x.Id == id).ToList();
+            var productCategory = _context.ProductCategories.Where(x => x.ProductId == id).ToList();
 
-            ProductVM productVM = new ProductVM()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Unit = product.Unit,
-                Price = product.Price,
-                Quantity = product.Quantity,
-                Description = product.Description
-            };
-
-            foreach (var item in productCategory)
-            {
-                productVM.CategoryList.Add(item.CategoryId);
-            }
-            return View(productVM);
+            return View(product);
         }
         
     }

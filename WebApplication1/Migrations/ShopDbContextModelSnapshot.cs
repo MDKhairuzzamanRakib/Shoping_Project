@@ -127,21 +127,26 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.ProductCategorySpecification", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductCategorySpecificationId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductCategorySpecificationId"));
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductCategoryId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("SpecificationId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProductCategorySpecificationId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("SpecificationId");
 
@@ -233,7 +238,7 @@ namespace WebApplication1.Migrations
 
                     b.HasOne("WebApplication1.Models.Product", "Product")
                         .WithMany("ProductCategories")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

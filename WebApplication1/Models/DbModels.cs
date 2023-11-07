@@ -66,12 +66,12 @@ namespace WebApplication1.Models
 
     public class ProductCategorySpecification
     {
-        public int ProductCategoryId { get; set; }
+        public int ProductCategorySpecificationId { get; set; }
 
         [ForeignKey("Category")]
         public int CategoryId { get; set; }
         [ForeignKey("Product")]
-        public int Id { get; set; }
+        public int ProductId { get; set; }
         [ForeignKey("Specification")]
         public int SpecificationId { get; set; }
 

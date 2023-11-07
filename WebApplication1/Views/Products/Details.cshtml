@@ -1,7 +1,37 @@
-﻿@model WebApplication1.Models.ViewModels.ProductVM
+﻿@model WebApplication1.Models.Product
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+
+<style>
+    .product-image img {
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+<h1 class="text-center alert alert-info p-2">Product Informations</h1>
+
+<div class="row border p-5">
+    <div class="col-4 product-image p-2">
+        <img src="@Model.Image"/>
+    </div>
+    <div class="col-8 pt-5 ps-5">
+        <h2>@Html.DisplayFor(x=>x.Name)</h2>
+        <p>Available Quantity : @Html.DisplayFor(x=>x.Quantity)</p>
+        <label><b>Description:</b></label><br />
+        <label>@Html.DisplayFor(x=>x.Description)</label><br /><br />
+        
+        <label style="font-weight: bold; color: #ef4a23; margin-top:10px; text-decoration: none;">Price : @Html.DisplayFor(x=>x.Price) BDT</label>
+        <div class="mt-2">
+            <form asp-action="AddToCart" asp-controller="Shopping" method="post">
+                <input type="hidden" name="pid" value="@Model.Id">
+                <input type="number" name="qty" min="1" max="500" value="1" class="me-1">
+                <button type="submit" class="btn btn-warning"><i class="fa fa-opencart"></i> Add to Cart</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 

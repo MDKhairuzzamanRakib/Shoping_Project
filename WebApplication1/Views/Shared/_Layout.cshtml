@@ -26,7 +26,7 @@
         function LoadData2(specificationId = null) {
             var specificationContainer = $("#specificationContainer");
             $.ajax({
-                url: "/AddNewProducts/AddNewSpecification/" + specificationContainer ?? "",
+                url: "/AddNewProducts/AddNewSpecification/" + specificationId ?? "",
                 type: "GET",
                 success: function (data) {
                     specificationContainer.append(data);

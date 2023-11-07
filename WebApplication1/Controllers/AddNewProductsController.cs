@@ -41,7 +41,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductVM productVM, int[] categoryId)
+        public async Task<IActionResult> Create(ProductVM productVM, int categoryId)
         {
             string msg = "";
             if (ModelState.IsValid)
@@ -79,21 +79,22 @@ namespace WebApplication1.Controllers
                     }
                 }
 
-                foreach (var item in categoryId)
+                
+                ProductCategorySpecification productCategory = new ProductCategorySpecification()
                 {
-                    ProductCategorySpecification productCategory = new ProductCategorySpecification()
-                    {
-                        Product = product,
-                        Id = product.Id,
-                        CategoryId = item
-                    };
-                    _context.ProductCategories.Add(productCategory);
-                }
+                    Product = product,
+                    ProductId = product.Id,
+                    Specification = specification,
+                    SpecificationId = specification.SpecificationId,
+                    CategoryId = categoryId
+                };
+                _context.ProductCategories.Add(productCategory);
+                
 
 
                 await _context.SaveChangesAsync();
                 msg = "Product Created Sucssefully!!";
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(AddProduct));
 
             }
             TempData["msg"] = msg;
@@ -103,7 +104,9 @@ namespace WebApplication1.Controllers
         public IActionResult Edit(int? id)
         {
             Product product = _context.Products.First(x => x.Id == id);
-            var productCategory = _context.ProductCategories.Where(x=>x.Id == id).ToList();
+            var productCategory = _context.ProductCategories.Where(x=>x.ProductId == id).ToList();
+            
+            
 
             ProductVM productVM = new ProductVM()
             {
@@ -112,17 +115,20 @@ namespace WebApplication1.Controllers
                 Unit = product.Unit,
                 Price = product.Price,
                 Quantity = product.Quantity,
-                Description = product.Description
+                Image = product.Image,
+                Description = product.Description,
             };
+            
 
             foreach (var item in productCategory)
             {
                 productVM.CategoryList.Add(item.CategoryId);
+                productVM.SpecificationList.Add(item.SpecificationId);
             }
             return View(productVM);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(ProductVM productVM, int[] categoryId)
+        public async Task<IActionResult> Edit(ProductVM productVM, int categoryId,int specificationId)
         {
             if (ModelState.IsValid)
             {
@@ -134,6 +140,11 @@ namespace WebApplication1.Controllers
                     Price = productVM.Price,
                     Quantity = productVM.Quantity,
                     Description = productVM.Description
+                };
+                Specification specification = new Specification()
+                {
+                    SpecificationName = productVM.SpecificationName,
+                    SpecificationDetails = productVM.SpecificationDetails,
                 };
                 var file = productVM.ImagePath;
                 if (file!=null)
@@ -149,22 +160,23 @@ namespace WebApplication1.Controllers
                     }
                 }
 
-                var existSkill = _context.ProductCategories.Where(x => x.Id == product.Id).ToList();
-                foreach (var item in existSkill)
+                var existItem = _context.ProductCategories.Where(x => x.ProductId == product.Id).ToList();
+                foreach (var item in existItem)
                 {
                     _context.ProductCategories.Remove(item);
+
                 }
 
-                foreach (var item in categoryId)
+                
+                ProductCategorySpecification productCategory = new ProductCategorySpecification()
                 {
-                    ProductCategorySpecification productCategory = new ProductCategorySpecification()
-                    {
-                        Id = product.Id,
-                        CategoryId = item
-                    };
-                    _context.ProductCategories.Add(productCategory);
-                }
-                _context.Update(product);
+                    ProductId = product.Id,
+                    CategoryId = categoryId,
+                    SpecificationId = product.Id
+                };
+                _context.ProductCategories.Add(productCategory);
+
+                _context.UpdateRange(product,specification);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(AddProduct));
             }
@@ -173,7 +185,7 @@ namespace WebApplication1.Controllers
          public IActionResult Delete(int? id)
         {
             Product product = _context.Products.First(x => x.Id == id);
-            var productCategory = _context.ProductCategories.Where(x => x.Id == id).ToList();
+            var productCategory = _context.ProductCategories.Where(x => x.ProductId == id).ToList();
 
             ProductVM productVM = new ProductVM()
             {
