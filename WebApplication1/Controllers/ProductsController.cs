@@ -23,10 +23,7 @@ namespace WebApplication1.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            Product product = _context.Products.First(x => x.Id == id);
-            var productCategory = _context.ProductCategories.Where(x => x.ProductId == id).ToList();
-
-            return View(product);
+            return View(await _context.Products.Include(x => x.ProductCategories).ThenInclude(y => y.Category).ToListAsync());
         }
         
     }
